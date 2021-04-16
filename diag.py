@@ -22,51 +22,46 @@ class DiagResource(object):
         
         # capture each of the blocking vars
         cap_gender = req.params["gender"]
-        cap_education = req.params["education"]
-        cap_age = req.params["age"]
-        cap_party = req.params["party"]
+        cap_race = req.params["race"]
         cap_id = req.params["id"]
         py_session = req.params["session"] + ".RData"
         
-        py_exact_var = ["gender", "education", "age", "party"]
-        py_exact_val = [cap_gender, cap_education, cap_age, cap_party]
+        py_exact_var = ["gender", "race"]
+        py_exact_val = [cap_gender, cap_race]
         
-        if (len(req.params["party"]) == 2):
-            robjects.r('''
-                           f <- function(id, exact_var, exact_val, session) {
-                            
-                            # the session has not been seen before, then the corresponding file doesn't exist
-                            # and this must be the first assignment
-                            if(!file.exists(session)) {
-                                seqout <- seqblock(query = FALSE
-                                                , id.vars = "ID"
-                                                , id.vals = id
-                                                , n.tr = 4
-                                                , tr.names = c("likert_C", "likertplus_C", "QV_C", "QVN") 
-                                                , assg.prob = c(4/7, 1/7, 1/7, 1/7)
-                                                , exact.vars = exact_var
-                                                , exact.vals = exact_val
-                                                , file.name = session)
-                            }
-                            else {
-                                seqout <- seqblock(query = FALSE
-                                                , object = session
-                                                , id.vals = id
-                                                , n.tr = 4
-                                                , tr.names = c("likert_C", "likertplus_C", "QV_C", "QVN") 
-                                                , assg.prob = c(4/7, 1/7, 1/7, 1/7)
-                                                , exact.vals = exact_val
-                                                , file.name = session)
-                            }
-                            seqout$x[seqout$x['ID'] == id , "Tr"]
-                            }
-                           ''')
+        robjects.r('''
+                       f <- function(id, exact_var, exact_val, session) {
 
-            r_f = robjects.r['f']
-            out = r_f(cap_id, py_exact_var, py_exact_val, py_session)
-            resp.body = 'Treatment=' + str(out[0])
-        else:
-            resp.body = 'Treatment=' + "error: party=" + req.params["party"]
+                        # the session has not been seen before, then the corresponding file doesn't exist
+                        # and this must be the first assignment
+                        if(!file.exists(session)) {
+                            seqout <- seqblock(query = FALSE
+                                            , id.vars = "ID"
+                                            , id.vals = id
+                                            , n.tr = 4
+                                            , tr.names = c("treatment1", "treatment2", "treatment3", "treatment4") 
+                                            , assg.prob = c(1/4, 1/4, 1/4, 1/4)
+                                            , exact.vars = exact_var
+                                            , exact.vals = exact_val
+                                            , file.name = session)
+                        }
+                        else {
+                            seqout <- seqblock(query = FALSE
+                                            , object = session
+                                            , id.vals = id
+                                            , n.tr = 4
+                                            , tr.names = c("treatment1", "treatment2", "treatment3", "treatment4") 
+                                            , assg.prob = c(1/4, 1/4, 1/4, 1/4)
+                                            , exact.vals = exact_val
+                                            , file.name = session)
+                        }
+                        seqout$x[seqout$x['ID'] == id , "Tr"]
+                        }
+                       ''')
+
+        r_f = robjects.r['f']
+        out = r_f(cap_id, py_exact_var, py_exact_val, py_session)
+        resp.body = 'Treatment=' + str(out[0])
         
 # falcon.API instances are callable WSGI apps
 app = falcon.API()
