@@ -21,13 +21,14 @@ class DiagResource(object):
         resp.status = falcon.HTTP_200  # This is the default status
         
         # capture each of the blocking vars
-        cap_gender = req.params["gender"]
         cap_race = req.params["race"]
+        cap_gender = req.params["gender"]
+        cap_age = req.params["age"]
         cap_id = req.params["id"]
         py_session = req.params["session"] + ".RData"
         
-        py_exact_var = ["gender", "race"]
-        py_exact_val = [cap_gender, cap_race]
+        py_exact_var = ["race", "gender", "age"]
+        py_exact_val = [cap_race, cap_gender, cap_age]
         
         robjects.r('''
                        f <- function(id, exact_var, exact_val, session) {
@@ -38,9 +39,9 @@ class DiagResource(object):
                             seqout <- seqblock(query = FALSE
                                             , id.vars = "ID"
                                             , id.vals = id
-                                            , n.tr = 4
-                                            , tr.names = c("treatment1", "treatment2", "treatment3", "treatment4") 
-                                            , assg.prob = c(1/4, 1/4, 1/4, 1/4)
+                                            , n.tr = 2
+                                            , tr.names = c("treatment1", "treatment2") 
+                                            , assg.prob = c(1/2, 1/2)
                                             , exact.vars = exact_var
                                             , exact.vals = exact_val
                                             , file.name = session)
@@ -49,9 +50,9 @@ class DiagResource(object):
                             seqout <- seqblock(query = FALSE
                                             , object = session
                                             , id.vals = id
-                                            , n.tr = 4
-                                            , tr.names = c("treatment1", "treatment2", "treatment3", "treatment4") 
-                                            , assg.prob = c(1/4, 1/4, 1/4, 1/4)
+                                            , n.tr = 2
+                                            , tr.names = c("treatment1", "treatment2") 
+                                            , assg.prob = c(1/2, 1/2)
                                             , exact.vals = exact_val
                                             , file.name = session)
                         }
