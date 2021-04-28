@@ -37,7 +37,7 @@ class DiagResource(object):
         diff = diff/(365.2425)
         age_dic= {24: 0, 34: 1, 44: 2, 54: 3, 64: 4, 74: 5, 150: 6}
         for key in age_dic.keys():
-            if age<= key:
+            if diff<= key:
                 age_block= age_dic[key]
                 break
         
