@@ -2,6 +2,7 @@ import falcon
 import rpy2.robjects.packages as rpackages
 import rpy2.robjects as robjects
 import sys
+from datetime import datetime
 
 # import R's utility package
 utils = rpackages.importr('utils')
@@ -25,6 +26,18 @@ class DiagResource(object):
         cap_race = req.params["race"]
         cap_gender = req.params["gender"]
         cap_age = req.params["age"]
+        
+        day, month, year= cap_age[0:2], cap_age[3:5], cap_age[6:10]
+        today= datetime.today().strftime('%Y,%m,%d')
+        birthdate= datetime.date(year, month, day)
+        diff= today - birthdate
+        age= diff.years
+        age_dic= {24: 0, 34: 1, 44: 2, 54: 3, 64: 4, 74: 5, 150: 6}
+        for key in age_dic.keys():
+            if age<= key:
+                age_block= age_dic[key]
+                break
+        
         cap_id = req.params["id"]
         py_session = req.params["session"] + ".RData"
         
