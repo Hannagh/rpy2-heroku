@@ -12,6 +12,7 @@ utils.chooseCRANmirror(ind=1) # select the first mirror in the list
 # Finally, import BlockTools
 bt = rpackages.importr('blockTools')
 
+
 # Falcon follows the REST architectural style, meaning (among
 # other things) that you think in terms of resources and state
 # transitions, which map to HTTP verbs.
