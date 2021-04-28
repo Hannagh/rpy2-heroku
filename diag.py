@@ -30,7 +30,7 @@ class DiagResource(object):
         day = int(float(cap_age[0:2]))
         month = int(float(cap_age[3:5]))
         year = int(float(cap_age[6:10]))
-        today= dt.today().strftime('%Y,%m,%d')
+        today= dt.today()
         birthdate= datetime.date(year, month, day)
         diff= today - birthdate
         age= diff.years
