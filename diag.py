@@ -31,9 +31,10 @@ class DiagResource(object):
         month = int(float(cap_age[3:5]))
         year = int(float(cap_age[6:10]))
         today= dt.today()
-        birthdate= datetime.date(year, month, day)
+        birthdate= dt(year=year, month=month, day=day)
         diff= today - birthdate
-        age= diff.years
+        diff = diff.days
+        diff = diff/(365.2425)
         age_dic= {24: 0, 34: 1, 44: 2, 54: 3, 64: 4, 74: 5, 150: 6}
         for key in age_dic.keys():
             if age<= key:
