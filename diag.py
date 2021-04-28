@@ -2,7 +2,7 @@ import falcon
 import rpy2.robjects.packages as rpackages
 import rpy2.robjects as robjects
 import sys
-from datetime import datetime
+import datetime
 
 # import R's utility package
 utils = rpackages.importr('utils')
@@ -26,13 +26,9 @@ class DiagResource(object):
         cap_race = req.params["race"]
         cap_gender = req.params["gender"]
         cap_age = req.params["age"]
-        print(cap_age)
         day = int(float(cap_age[0:2]))
         month = int(float(cap_age[3:5]))
         year = int(float(cap_age[6:10]))
-        print(day)
-        print(month)
-        print(year)
         today= datetime.today().strftime('%Y,%m,%d')
         birthdate= datetime.date(year, month, day)
         diff= today - birthdate
@@ -47,7 +43,7 @@ class DiagResource(object):
         py_session = req.params["session"] + ".RData"
         
         py_exact_var = ["race", "gender", "age"]
-        py_exact_val = [cap_race, cap_gender, cap_age]
+        py_exact_val = [cap_race, cap_gender, age_block]
         
         robjects.r('''
                        f <- function(id, exact_var, exact_val, session) {
