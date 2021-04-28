@@ -3,6 +3,7 @@ import rpy2.robjects.packages as rpackages
 import rpy2.robjects as robjects
 import sys
 import datetime
+from datetime import datetime as dt
 
 # import R's utility package
 utils = rpackages.importr('utils')
@@ -29,7 +30,7 @@ class DiagResource(object):
         day = int(float(cap_age[0:2]))
         month = int(float(cap_age[3:5]))
         year = int(float(cap_age[6:10]))
-        today= datetime.today().strftime('%Y,%m,%d')
+        today= dt.today().strftime('%Y,%m,%d')
         birthdate= datetime.date(year, month, day)
         diff= today - birthdate
         age= diff.years
