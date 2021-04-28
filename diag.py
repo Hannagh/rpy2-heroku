@@ -29,7 +29,7 @@ class DiagResource(object):
         print(cap_age)
         day = int(float(cap_age[0:2]))
         month = int(float(cap_age[3:5]))
-        year = int(float(cap_age[7:10]))
+        year = int(float(cap_age[6:10]))
         print(day)
         print(month)
         print(year)
