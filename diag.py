@@ -28,8 +28,11 @@ class DiagResource(object):
         cap_age = req.params["age"]
         print(cap_age)
         day = int(float(cap_age[0:2]))
-        month = int(float(cap_age[4:6]))
-        year = int(float(cap_age[8:11]))
+        month = int(float(cap_age[3:5]))
+        year = int(float(cap_age[7:10]))
+        print(day)
+        print(month)
+        print(year)
         today= datetime.today().strftime('%Y,%m,%d')
         birthdate= datetime.date(year, month, day)
         diff= today - birthdate
